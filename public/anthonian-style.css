@@ -1,0 +1,129 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Luckiest+Guy&display=swap');
+
+body {
+  background-image: url('/snow.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+h2 {
+  font-family: 'Bangers', cursive;
+  font-weight: 700;
+}
+
+h3 {
+  font-family: lato, 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  color: #373A44;
+  font-style:italic;
+}
+
+p {
+  font-size: 16px;
+  font-family: lato, 'helvetica neue', helvetica, arial, sans-serif;
+  line-height: 24px;
+  color: #373A44;
+  font-style: italic;
+}
+
+.anthonian-span {
+  font-size: 16px;
+  font-family: lato, 'helvetica neue', helvetica, arial, sans-serif;
+  line-height: 24px;
+  color: #373A44;
+  font-style: italic;
+}
+
+.anthonian-button-container {
+  border-style: solid;
+  border-color: #FFFFFF #FFFFFF #333333 #FFFFFF;
+  background: #CFFFFF none repeat scroll 0% 0%;
+  border-width: 0px 0px 2px 0px;
+  display: inline-block;
+  border-radius: 0px;
+  width: auto;
+}
+
+.anthonian-button-text {
+  font-family: 'trebuchet ms', 'lucida grande', 'lucida sans unicode', 'lucida sans', tahoma, sans-serif;
+  font-size: 16px;
+  color: #373A44;
+  border-style: solid;
+  border-color: #CFFFFF;
+  border-width: 5px 0px;
+  display: inline-block;
+  background: #CFFFFF none repeat scroll 0% 0%;
+  border-radius: 0px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 19px;
+  width: auto;
+  text-align: center;
+  text-decoration: none!important;
+}
+
+.anthonian-container {
+  margin: auto;
+  text-align: center;
+}
+
+.anthonian-2-grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.anthonian-grid-item {
+  margin: auto;
+  padding: 1%;
+}
+
+.anthonian-hero-container {
+  background-image: url('/merry-christmas.png');
+  min-width: 100%;
+  min-height: 600px;
+  background-repeat: no-repeat;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

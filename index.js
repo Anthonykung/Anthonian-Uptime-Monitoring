@@ -26,20 +26,18 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/private/index.html');
 });
 
-var dbobj = db.getAll().then((dbobj) => {
-  console.log(dbobj.emailPass);
-});
-console.log(dbobj.emailPass);
+var transporter;
 
-
-var transporter = nodemailer.createTransport({
-  service: 'smtp.ionos.com',
-  port: 587,
-  secure: true,
-  auth: {
-    user: dbobj.emailUser,
-    pass: dbobj.emailPass
-  }
+var dbobj = db.getAll().then((obj) => {
+    transporter = nodemailer.createTransport({
+    service: 'smtp.ionos.com',
+    port: 587,
+    secure: true,
+    auth: {
+      user: dbobj.emailUser,
+      pass: dbobj.emailPass
+    }
+  });
 });
 
 app.post('/processor', (req, res) => {

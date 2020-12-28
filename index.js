@@ -26,19 +26,43 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/private/index.html');
 });
 
-var transporter;
+async function mailer() {
 
-var dbobj = db.getAll().then((obj) => {
-    transporter = nodemailer.createTransport({
-    service: 'smtp.ionos.com',
+  // Get database object
+  var dbobj = await db.getAll();
+  await db.delete("emailPass");
+  console.log(dbobj);
+  console.log('User:', dbobj.mailUser, '\nPass:', dbobj.mailPass);
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: "smtp.ionos.com",
     port: 587,
-    secure: true,
+    secure: false, // true for 465, false for other ports
     auth: {
-      user: dbobj.emailUser,
-      pass: dbobj.emailPass
-    }
+      user: dbobj.mailUser,
+      pass: dbobj.mailPass,
+    },
   });
-});
+
+  // send mail with defined transport object
+  let content = await transporter.sendMail({
+    from: '"Anthonian Uptime Monitoring" <uptime@anth.dev>', // sender address
+    to: "hi@anth.dev", // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>", // html body
+  });
+
+  console.log("Message sent: %s", content.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+  // Preview only available when sending through an Ethereal account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(content));
+  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
+
+mailer().catch(console.error);
 
 app.post('/processor', (req, res) => {
   var logs = stringify(req);

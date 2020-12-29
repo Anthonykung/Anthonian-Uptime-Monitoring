@@ -1,2 +1,5 @@
 access-logs.json
 brief-logs.log
+log*
+backup*
+old*

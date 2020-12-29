@@ -1,5 +1,5 @@
 module.exports = function (size) {
-  var result;
+  var result = '';
   var upperchar = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var lowerchar = 'abcdefghijklmnopqrstuvwxyz';
   var num = '0123456789';

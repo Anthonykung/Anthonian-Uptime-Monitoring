@@ -25,6 +25,10 @@ app.set('view engine', 'handlebars');
 
 var content = {mail: 'hi@anth.dev', subject: '[AUM] Server Started', template: 'default', message: Date().toString()};
 var transport = mailer(db, content).catch(console.error);
+var monitor = setInterval(function () {
+  console.log(Date().toString() + ' Monitoring');
+  aum.monitor(db).catch(console.error);
+}, 10000);
 
 app.use(express.static('public'));
 
@@ -39,10 +43,8 @@ app.post('/processor', (req, res) => {
   res.sendFile(__dirname + '/private/success.html');
 });
 
-var logTimer = setInterval(function () {
-  
-}, 60000);
-
 app.use(express.static(__dirname + '/public'));
 
-app.listen(3000, () => console.log(Date().toString() + ' Server started!'));
+app.listen(3000, () => {
+  console.log(Date().toString() + ' Server started!');
+});

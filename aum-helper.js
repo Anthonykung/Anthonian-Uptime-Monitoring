@@ -4,24 +4,28 @@ const randchar = require('./randchar');
 const fs = require('fs');
 const stringify = require('json-stringify-safe');
 const ping = require('ping');
+const urlmodule = require('url');
+const http = require('http');
 
 async function jsonURL(url) {
-  url = url.replace("https://", "");
+  /*url = url.replace("https://", "");
   url = url.replace("http://", "");
   let i = 0;
   for (i = 0; i < url.length; i++) {
     if (url[i] == '/') {
       url = url.slice(0, i);
     }
-  }
-  console.log(url);
+  }*/
+  url = new URL(url);
+  //console.log(url);
   return url;
 }
 
 module.exports.welcomeMail = async function (db, req) {
   let key = 'urls-' + randchar(8);
   let url = await jsonURL(req.body.url);
-  data = { mail: req.body.email, url: url, status: 0, laps: 0 }
+  //console.log(url);
+  data = { mail: req.body.email, url: url, hostname: url.hostname, pathname: url.pathname, status: 0, laps: 0 }
   db.set(key, data).catch(console.error);
   console.log(key);
   content = {
@@ -74,21 +78,38 @@ module.exports.monitor = async function monitor(db) {
   db.list("urls").then(objts => {
     for (i in objts) {
       db.get(objts[i]).then(objt => {
-        http.request(options, (res) => {
-          if (!alive && objt.status == 0) {
+        url = new URL(objt.url);
+        let  options = {
+          host: url.hostname,
+          path: url.pathname
+        };
+        //console.log(objt.url);
+        //console.log(options);
+        http.get(options, (res) => {
+          //console.log(res);
+          if (objt.status != 0) {
+            upMailer(db, objts[i], objt.mail, objt.url);
+            data = objt;
+            data.status = 0;
+            data.laps = 0;
+            db.set(objts[i], data).catch(console.error);
+          }
+        }).on('error', function(error) {
+          //console.log(error);
+          if (objt.status == 0) {
             downMailer(db, objts[i], objt.mail, objt.url);
             data = objt;
             data.status = 1;
             db.set(objts[i], data).catch(console.error);
           }
-          else if (!alive && objt.status == 1) {
+          else if (objt.status == 1) {
             downMailer(db, objts[i], objt.mail, objt.url);
             data = objt;
             data.status = 2;
             data.laps += 1;
             db.set(objts[i], data).catch(console.error);
           }
-          else if (!alive && objt.status == 2) {
+          else if (objt.status == 2) {
             if (objt.laps != 60) {
               data = objt;
               data.status = 2;
@@ -102,13 +123,6 @@ module.exports.monitor = async function monitor(db) {
               data.laps = 0;
               db.set(objts[i], data).catch(console.error);
             }
-          }
-          else if (alive && objt.status != 0) {
-            upMailer(db, objts[i], objt.mail, objt.url);
-            data = objt;
-            data.status = 0;
-            data.laps = 0;
-            db.set(objts[i], data).catch(console.error);
           }
         });
       });

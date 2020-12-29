@@ -23,7 +23,7 @@ app.engine('handlebars', exphbs({
 ));
 app.set('view engine', 'handlebars');
 
-var content = {mail: 'hi@anth.dev', subject: '[AUM] Server Started', template: 'default', message: Date().toString()};
+var content = {mail: 'hi@anth.dev', subject: '[AUM] Server Started Mode: ' + process.env.NODE_ENV, template: 'default', message: Date().toString()};
 var transport = mailer(db, content).catch(console.error);
 var monitor = setInterval(function () {
   console.log(Date().toString() + ' Monitoring');
@@ -46,5 +46,5 @@ app.post('/processor', (req, res) => {
 app.use(express.static(__dirname + '/public'));
 
 app.listen(3000, () => {
-  console.log(Date().toString() + ' Server started!');
+  console.log(Date().toString() + ' Server started! Mode: ' + process.env.NODE_ENV);
 });

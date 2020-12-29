@@ -27,7 +27,7 @@ module.exports.welcomeMail = async function (db, req) {
   //console.log(url);
   data = { mail: req.body.email, url: url, hostname: url.hostname, pathname: url.pathname, status: 0, laps: 0 }
   db.set(key, data).catch(console.error);
-  console.log(key);
+  console.log('Key Created:', key);
   content = {
     template: 'welcome',
     subject: 'Welcome To Anthonian Uptime Monitoring',
@@ -35,6 +35,21 @@ module.exports.welcomeMail = async function (db, req) {
     key: key,
     url: data.url
   }
+  mailer(db, content).catch(console.error);
+}
+
+module.exports.byeMail = async function (db, req) {
+  let data = await db.get(req.body.key).catch(console.error);
+  //console.log(data);
+  content = {
+    template: 'bye',
+    subject: '[AUM] Uptime Monitoring Terminated',
+    mail: data.mail,
+    key: req.body.key,
+    url: data.url
+  }
+  db.delete(req.body.key).catch(console.error);
+  console.log('Key Deletion:', req.body.key);
   mailer(db, content).catch(console.error);
 }
 

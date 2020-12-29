@@ -28,7 +28,7 @@ var transport = mailer(db, content).catch(console.error);
 var monitor = setInterval(function () {
   console.log(Date().toString() + ' Monitoring');
   aum.monitor(db).catch(console.error);
-}, 10000);
+}, 60000);
 
 app.use(express.static('public'));
 
@@ -37,10 +37,21 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/private/index.html');
 });
 
+app.get('/terminate', (req, res) => {
+  aum.log('terminate', req);
+  res.sendFile(__dirname + '/private/terminate.html');
+});
+
 app.post('/processor', (req, res) => {
   aum.log('processor', req);
   aum.welcomeMail(db, req);
   res.sendFile(__dirname + '/private/success.html');
+});
+
+app.post('/terminate', (req, res) => {
+  aum.log('terminated', req);
+  aum.byeMail(db, req);
+  res.sendFile(__dirname + '/private/terminated.html');
 });
 
 app.use(express.static(__dirname + '/public'));

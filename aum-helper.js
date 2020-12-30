@@ -68,11 +68,9 @@ module.exports.log = async function (access, req) {
   */
   // Brief Access Logs
   var currentLog = Date().toString() + ' Access to ' + access + ' logged';
-  /*
   fs.appendFile('brief-logs.log', "\n" + currentLog, function(err) {
     if (err) throw err;
   });
-  */
   console.log(currentLog);
 }
 

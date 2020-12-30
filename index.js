@@ -8,7 +8,6 @@ const repldb = require('./repldb');
 const aum = require('./aum-helper');
 const Database = require("@replit/database");
 const db = new Database();
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -23,8 +22,12 @@ app.engine('handlebars', exphbs({
 ));
 app.set('view engine', 'handlebars');
 
-var content = {mail: 'hi@anth.dev', subject: '[AUM] Server Started Mode: ' + process.env.NODE_ENV, template: 'default', message: Date().toString()};
-var transport = mailer(db, content).catch(console.error);
+async function serverStart() {
+  var content = {mail: await aum.adminMail(db).catch(console.error), subject: '[AUM] Server Started Mode: ' + process.env.NODE_ENV, template: 'default', message: Date().toString()};
+  var transport = mailer(db, content).catch(console.error);
+};
+serverStart();
+
 var monitor = setInterval(function () {
   console.log(Date().toString() + ' Monitoring');
   aum.monitor(db).catch(console.error);

@@ -1,14 +1,28 @@
 {
-  "name": "IroncladOffshoreCodes",
-  "version": "1.0.0",
-  "description": "",
+  "name": "Anthonian Uptime Monitoring",
+  "version": "2.0.0",
+  "description": "A simple uptime monitoring system to check your web applications and keep your Repl.it projects alive.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "AUM",
+    "Anthonian",
+    "Uptime",
+    "Uptime Monitoring"
+  ],
+  "author": {
+    "name": "Anthony Kung",
+    "email": "hi@anth.dev",
+    "url": "https://anth.dev"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Anthonykung/Anthonian-Uptime-Monitoring/issues",
+    "email": "bugs@anth.dev"
+  },
+  "homepage": "https://uptime.anth.dev",
   "dependencies": {
     "@replit/database": "^2.0.0",
     "body-parser": "^1.19.0",
@@ -19,5 +33,9 @@
     "nodemailer-express-handlebars": "^4.0.0",
     "nodemailer-html-to-text": "^3.1.0",
     "ping": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anthonykung/Anthonian-Uptime-Monitoring"
   }
 }

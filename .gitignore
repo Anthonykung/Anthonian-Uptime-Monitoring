@@ -3,3 +3,4 @@ brief-logs.log
 log*
 backup*
 old*
+*logs*

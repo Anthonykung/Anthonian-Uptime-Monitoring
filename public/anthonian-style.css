@@ -30,12 +30,20 @@ p {
   font-style: italic;
 }
 
+a {
+  text-decoration: none;
+  color: deeppink;
+}
+
 .anthonian-span {
   font-size: 16px;
   font-family: lato, 'helvetica neue', helvetica, arial, sans-serif;
   line-height: 24px;
   color: #373A44;
   font-style: italic;
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: #373A44;
 }
 
 .anthonian-button-container {

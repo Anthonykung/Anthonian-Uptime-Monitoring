@@ -4,19 +4,25 @@ const htmlToText = require('nodemailer-html-to-text').htmlToText;
 
 module.exports = async function (db, content) {
 
+  // Mail Setup - Only Need To Run Once
+  // await db.set("mailAddr", "{{ REPLACE THIS }}").catch(console.error);
+  // await db.set("mailUser", "{{ REPLACE THIS }}").catch(console.error);
+  // await db.set("mailPass", "{{ REPLACE THIS }}").catch(console.error);
+  // await db.set("mailHost", "{{ REPLACE THIS }}").catch(console.error);
+  // await db.set("mailPort", "{{ REPLACE THIS }}").catch(console.error);
+
   // Get database object
-  var dbobj = await db.getAll();
-  await db.delete("emailPass");
+  let dbobj = await db.getAll().catch(console.error);
 
   // create reusable transporter object using the default SMTP transport
   transporter = nodemailer.createTransport({
-    host: "smtp.ionos.com",
-    port: 587,
+    host: dbobj.mailHost,
+    port: dbobj.mailPort,
     secure: false, // true for 465, false for other ports
     auth: {
       user: dbobj.mailUser,
-      pass: dbobj.mailPass,
-    },
+      pass: dbobj.mailPass
+    }
   });
   transporter.use('compile', nmailhbs({ 
     viewEngine : {
@@ -31,7 +37,7 @@ module.exports = async function (db, content) {
   //transporter.use('compile', htmlToText());
 
   var mail = {
-     from: 'uptime@anth.dev',
+     from: dbobj.mailAddr,
      to: content.mail,
      subject: content.subject,
      template: content.template,

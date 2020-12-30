@@ -21,6 +21,11 @@ async function jsonURL(url) {
   return url;
 }
 
+module.exports.adminMail = async function (db) {
+  let mail = await db.get("mailAddr").catch(console.error);
+  return mail;
+}
+
 module.exports.welcomeMail = async function (db, req) {
   let key = 'urls-' + randchar(8);
   let url = await jsonURL(req.body.url);
@@ -54,14 +59,20 @@ module.exports.byeMail = async function (db, req) {
 }
 
 module.exports.log = async function (access, req) {
+  // Detailed Request logs
+  /*
   var logs = stringify(req);
   fs.appendFile('access-logs.json', "\n" + logs, function(err) {
     if (err) throw err;
   });
+  */
+  // Brief Access Logs
   var currentLog = Date().toString() + ' Access to ' + access + ' logged';
+  /*
   fs.appendFile('brief-logs.log', "\n" + currentLog, function(err) {
     if (err) throw err;
   });
+  */
   console.log(currentLog);
 }
 
